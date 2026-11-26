@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SkillGap Analyzer — Discover Your Skill Gaps. Build Your Career.</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: navbar}"></div>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+    <div class="hero-inner">
+        <div>
+            <span class="hero-eyebrow">⚡ Real job-market data, not guesswork</span>
+            <h1>Discover Your <span class="accent-text">Skill Gaps</span>.<br>Build Your Career.</h1>
+            <p class="lead">Analyze your skills against real job-market demand, discover the skills you're
+                missing, and get personalized course recommendations to become job-ready.</p>
+            <div class="hero-ctas">
+                <a th:href="@{/register}" class="btn btn-primary">Get Started →</a>
+                <a th:href="@{/login}" class="btn btn-outline-light">Login</a>
+            </div>
+            <div class="hero-flow">
+                <span class="flow-step">Your Skills</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">Market Analysis</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">Skill Gap</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">Personalized Learning</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-step">Career Ready</span>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="floating-badge b1">🎯 Career Match Score</div>
+            <div class="floating-card">
+                <div class="fc-label">Career Match</div>
+                <div class="match-ring-row">
+                    <div class="match-ring"><span>87%</span></div>
+                    <div>
+                        <div class="fc-role">Java Developer</div>
+                        <div class="fc-role-sub">Target Role</div>
+                    </div>
+                </div>
+                <div class="fc-section-title">Skills Found</div>
+                <div class="fc-skill-row have">✓ Java</div>
+                <div class="fc-skill-row have">✓ SQL</div>
+                <div class="fc-skill-row have">✓ Spring Boot</div>
+                <div class="fc-section-title">Skills to Improve</div>
+                <div class="fc-skill-row missing">→ Docker</div>
+                <div class="fc-skill-row missing">→ REST APIs</div>
+                <div class="fc-skill-row missing">→ AWS</div>
+            </div>
+            <div class="floating-badge b2">📈 +40 Live Job Postings</div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= STATS ================= -->
+<section class="stats-section">
+    <div class="stats-grid">
+        <div class="reveal">
+            <div class="stat-number" data-count-to="40" th:attr="data-count-to=${jobPostingCount}">0</div>
+            <div class="stat-label">Job Postings Analyzed</div>
+        </div>
+        <div class="reveal">
+            <div class="stat-number" data-count-to="40" th:attr="data-count-to=${skillCount}" data-suffix="+">0</div>
+            <div class="stat-label">Technical Skills Tracked</div>
+        </div>
+        <div class="reveal">
+            <div class="stat-number" data-count-to="39" th:attr="data-count-to=${courseCount}" data-suffix="+">0</div>
+            <div class="stat-label">Learning Resources</div>
+        </div>
+        <div class="reveal">
+            <div class="stat-number" data-count-to="4" th:attr="data-count-to=${roleCount}">0</div>
+            <div class="stat-label">Career Roles</div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section class="section" id="features">
+    <div class="section-header reveal">
+        <span class="eyebrow">Features</span>
+        <h2>Everything You Need to Become Job-Ready</h2>
+        <p>A complete, data-driven toolkit to close the gap between where you are and where the market needs you.</p>
+    </div>
+    <div class="grid-3">
+        <div class="feature-card reveal">
+            <div class="icon-tile">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            </div>
+            <h3>Skill Gap Analysis</h3>
+            <p>Understand exactly which skills you're missing for your target role.</p>
+        </div>
+        <div class="feature-card reveal">
+            <div class="icon-tile">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg>
+            </div>
+            <h3>Market Demand</h3>
+            <p>See which technical skills are currently important for your selected career role.</p>
+        </div>
+        <div class="feature-card reveal">
+            <div class="icon-tile">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg>
+            </div>
+            <h3>Resume Analysis</h3>
+            <p>Upload your resume and automatically identify your technical skills.</p>
+        </div>
+        <div class="feature-card reveal">
+            <div class="icon-tile">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            </div>
+            <h3>Career Match Score</h3>
+            <p>Get a clear percentage-based view of how closely your skills match your target role.</p>
+        </div>
+        <div class="feature-card reveal">
+            <div class="icon-tile">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+            </div>
+            <h3>Personalized Courses</h3>
+            <p>Receive course recommendations based on your missing skills.</p>
+        </div>
+        <div class="feature-card reveal">
+            <div class="icon-tile">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <h3>Career Progress</h3>
+            <p>Track your previous analyses and monitor your improvement over time.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section class="section" id="how-it-works" style="background:var(--white);">
+    <div class="section-header reveal">
+        <span class="eyebrow">Process</span>
+        <h2>How SkillGap Analyzer Works</h2>
+        <p>From sign-up to a personalized learning path in four simple steps.</p>
+    </div>
+    <div class="steps-grid">
+        <div class="step-card reveal">
+            <div class="step-number">01</div>
+            <h3>Create Your Profile</h3>
+            <p>Sign up and add your skills.</p>
+        </div>
+        <div class="step-card reveal">
+            <div class="step-number">02</div>
+            <h3>Upload Your Resume</h3>
+            <p>Upload your resume and let the system identify your technical skills.</p>
+        </div>
+        <div class="step-card reveal">
+            <div class="step-number">03</div>
+            <h3>Choose Your Career</h3>
+            <p>Select a target role such as Java Developer, Data Analyst, and more.</p>
+        </div>
+        <div class="step-card reveal">
+            <div class="step-number">04</div>
+            <h3>Discover Your Skill Gap</h3>
+            <p>Get your match score, missing skills, market demand and recommended courses.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ================= CAREER ROLES ================= -->
+<section class="section" id="roles">
+    <div class="section-header reveal">
+        <span class="eyebrow">Career Paths</span>
+        <h2>Explore Career Paths</h2>
+        <p>Every role below is backed by real job-posting data in our system.</p>
+    </div>
+    <div class="grid-4">
+        <div class="role-card reveal">
+            <div class="icon-tile"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></div>
+            <h3>Java Developer</h3>
+            <p>Spring Boot, Hibernate, REST APIs and core Java skills for backend roles.</p>
+            <a th:href="@{/register}" class="role-cta">Analyze Skills →</a>
+        </div>
+        <div class="role-card reveal">
+            <div class="icon-tile"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0018 0V5"/></svg></div>
+            <h3>Backend Developer</h3>
+            <p>APIs, databases, microservices and cloud fundamentals.</p>
+            <a th:href="@{/register}" class="role-cta">Analyze Skills →</a>
+        </div>
+        <div class="role-card reveal">
+            <div class="icon-tile"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+            <h3>Full Stack Developer</h3>
+            <p>End-to-end web development across frontend and backend.</p>
+            <a th:href="@{/register}" class="role-cta">Analyze Skills →</a>
+        </div>
+        <div class="role-card reveal">
+            <div class="icon-tile"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="5"/><rect x="12" y="8" width="3" height="9"/><rect x="17" y="5" width="3" height="12"/></svg></div>
+            <h3>Data Analyst</h3>
+            <p>SQL, Excel, Power BI, Python and statistics for data-driven roles.</p>
+            <a th:href="@{/register}" class="role-cta">Analyze Skills →</a>
+        </div>
+    </div>
+</section>
+
+<!-- ================= QUICK ANALYSIS (existing anonymous flow, restyled) ================= -->
+<section class="section" style="background:var(--white);">
+    <div class="section-header reveal">
+        <span class="eyebrow">Try It Now — No Sign-Up Needed</span>
+        <h2>Quick Skill Check</h2>
+        <p>Pick a role and your current skills for an instant, anonymous gap check.</p>
+    </div>
+
+    <div class="container wide reveal">
+        <form th:action="@{/analyze}" method="post">
+            <div class="form-group">
+                <label for="role">Target Role</label>
+                <select id="role" name="role" required>
+                    <option th:each="r : ${roles}" th:value="${r}" th:text="${r}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Your Current Skills</label>
+                <div class="checkbox-grid">
+                    <label class="skill-checkbox" th:each="s : ${allSkills}">
+                        <input type="checkbox" name="selectedSkills" th:value="${s.name}"/>
+                        <span th:text="${s.name}"></span>
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Analyze My Skill Gap</button>
+        </form>
+        <p class="hint-box">Tip: <a th:href="@{/register}">Create an account</a> to save your skills, upload a
+            resume, and keep a history of your analyses.</p>
+    </div>
+</section>
+
+<!-- ================= CTA BAND ================= -->
+<div class="cta-band reveal">
+    <h2>Ready to close your skill gap?</h2>
+    <p>Create a free account and get a personalized, saved analysis in minutes.</p>
+    <a th:href="@{/register}" class="btn btn-primary">Get Started →</a>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

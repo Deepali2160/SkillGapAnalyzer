@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resume Upload — SkillGap Analyzer</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: navbar}"></div>
+<div class="container">
+    <h1>Resume Upload</h1>
+    <p class="subtitle">Upload a PDF or DOC/DOCX resume. We extract the text (via Apache Tika) and detect your
+        skills automatically using the same skills taxonomy used for job-market analysis. Max size: 5 MB.</p>
+
+    <div class="alert alert-success" th:if="${successMessage}" th:text="'✓ ' + ${successMessage}"></div>
+    <div class="alert alert-error" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+    <form th:action="@{/resume/upload}" method="post" enctype="multipart/form-data" data-loading-btn>
+        <div class="dropzone" id="resumeDropzone">
+            <input type="file" name="file" accept=".pdf,.doc,.docx" required/>
+            <div class="dz-icon">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4M12 4l-4 4M12 4l4 4"/><path d="M4 16v3a2 2 0 002 2h12a2 2 0 002-2v-3"/></svg>
+            </div>
+            <div class="dz-title">Drop your resume here</div>
+            <div class="dz-sub">or click to browse — PDF, DOC, DOCX (max 5 MB)</div>
+            <div class="dz-filename" style="display:none;"></div>
+        </div>
+        <div style="margin-top:20px;">
+            <button type="submit" class="btn btn-primary">
+                <span class="spinner"></span>
+                <span class="btn-label">Upload &amp; Parse</span>
+            </button>
+        </div>
+    </form>
+
+    <div th:if="${existingResume}" class="card" style="margin-top:28px;">
+        <h3>Current Resume on File</h3>
+        <p><strong>File:</strong> <span th:text="${existingResume.originalFileName}"></span></p>
+        <p><strong>Uploaded:</strong> <span th:text="${existingResume.uploadedAt}"></span></p>
+        <p><strong>Detected Skills:</strong></p>
+        <div th:if="${#sets.isEmpty(existingResume.detectedSkills)}">
+            <p style="color:var(--text-muted);">No known skills were detected in this resume.</p>
+        </div>
+        <div th:unless="${#sets.isEmpty(existingResume.detectedSkills)}">
+            <span class="badge badge-have" th:each="s : ${existingResume.detectedSkills}" th:text="${s.name}"></span>
+        </div>
+        <a th:href="@{/analysis}" class="btn-link">Analyze With These Skills</a>
+    </div>
+
+    <div th:unless="${existingResume}" class="empty-state" style="margin-top:28px;">
+        <h3>No resume uploaded yet</h3>
+        <p>Upload your resume to automatically discover your skills.</p>
+    </div>
+</div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

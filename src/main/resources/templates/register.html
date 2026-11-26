@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign Up — SkillGap Analyzer</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: navbar}"></div>
+
+<div class="auth-shell">
+    <div class="auth-side">
+        <div class="brand-mark">
+            <svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="32" height="32" rx="9" fill="#6C5CE7"/>
+                <path d="M8 20L13 15L17 18L24 10" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="24" cy="10" r="2.3" fill="white"/>
+            </svg>
+            SkillGap Analyzer
+        </div>
+        <h2>Start Your<br>Career Journey</h2>
+        <p>Create a free account to save your skills, upload your resume, and track your progress
+            over time with a full analysis history.</p>
+        <div class="auth-quote">"40+ real job postings. 40+ tracked skills. One clear career roadmap."</div>
+    </div>
+
+    <div class="auth-form-side">
+        <div class="auth-card">
+            <h1>Start Your Career Journey</h1>
+            <p class="subtitle">Create your account in under a minute.</p>
+
+            <div class="alert alert-error" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+            <form th:action="@{/register}" th:object="${registerRequest}" method="post" data-loading-btn>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" th:field="*{name}" required/>
+                    <span class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" th:field="*{email}" required/>
+                    <span class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-field">
+                        <input type="password" id="password" th:field="*{password}" required/>
+                        <button type="button" class="password-toggle" data-target="password">Show</button>
+                    </div>
+                    <span class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="password-field">
+                        <input type="password" id="confirmPassword" required/>
+                        <button type="button" class="password-toggle" data-target="confirmPassword">Show</button>
+                    </div>
+                    <span class="field-error" id="confirmPasswordError" style="display:none;">Passwords do not match.</span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="registerSubmitBtn">
+                    <span class="spinner"></span>
+                    <span class="btn-label">Create Account</span>
+                </button>
+            </form>
+
+            <p class="switch-link">Already have an account? <a th:href="@{/login}">Login</a></p>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+<script>
+    // Client-side only: the backend RegisterRequest has no confirmPassword
+    // field, so this never changes what is submitted - it just blocks
+    // submission early if the two password fields don't match.
+    document.querySelector('form').addEventListener('submit', function (e) {
+        var pwd = document.getElementById('password').value;
+        var confirm = document.getElementById('confirmPassword').value;
+        var errorEl = document.getElementById('confirmPasswordError');
+        if (pwd !== confirm) {
+            e.preventDefault();
+            errorEl.style.display = 'block';
+            document.getElementById('registerSubmitBtn').classList.remove('is-loading');
+            document.getElementById('registerSubmitBtn').removeAttribute('disabled');
+        } else {
+            errorEl.style.display = 'none';
+        }
+    });
+</script>
+</body>
+</html>

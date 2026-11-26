@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log In — SkillGap Analyzer</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: navbar}"></div>
+
+<div class="auth-shell">
+    <div class="auth-side">
+        <div class="brand-mark">
+            <svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="32" height="32" rx="9" fill="#6C5CE7"/>
+                <path d="M8 20L13 15L17 18L24 10" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="24" cy="10" r="2.3" fill="white"/>
+            </svg>
+            SkillGap Analyzer
+        </div>
+        <h2>Your skills.<br>Your goals.<br>Your career.</h2>
+        <p>Understand where you stand. Discover what to learn next.</p>
+        <div class="auth-quote">"The system compared my resume against 40 real job postings and showed
+            me exactly what to learn next — in minutes."</div>
+    </div>
+
+    <div class="auth-form-side">
+        <div class="auth-card">
+            <h1>Welcome Back</h1>
+            <p class="subtitle">Login to continue your career journey.</p>
+
+            <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+            <div class="alert alert-error" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+            <form th:action="@{/login}" th:object="${loginRequest}" method="post" data-loading-btn>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" th:field="*{email}" required/>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-field">
+                        <input type="password" id="password" th:field="*{password}" required/>
+                        <button type="button" class="password-toggle" data-target="password">Show</button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <span class="spinner"></span>
+                    <span class="btn-label">Login</span>
+                </button>
+            </form>
+
+            <p class="switch-link">Don't have an account? <a th:href="@{/register}">Create an account</a></p>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Skill Gap Report — SkillGap Analyzer</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/nav :: navbar}"></div>
+<div class="container wide">
+    <a th:href="@{/}" class="back-link">&larr; Back</a>
+
+    <div class="alert alert-success" th:if="${personalized}">
+        ✓ Saved to your analysis history.
+        <a th:href="@{'/analysis/history/' + ${savedAnalysisId}}">View details</a>
+    </div>
+
+    <div class="match-hero">
+        <div class="big-ring" th:style="'--pct:' + ${result.matchPercent}">
+            <span th:text="${result.matchPercent} + '%'"></span>
+        </div>
+        <div>
+            <h2 th:text="${result.role}"></h2>
+            <p>Based on <span th:text="${studentSkillCount}"></span> of your skills compared against real
+                market demand.</p>
+        </div>
+    </div>
+
+    <div class="chart-card">
+        <h3 style="margin-top:0;">Market Demand by Skill</h3>
+        <canvas id="demandChart" height="90"></canvas>
+    </div>
+
+    <h2>Skill Demand vs Your Skills</h2>
+    <table class="skill-table">
+        <thead>
+        <tr>
+            <th>Skill</th>
+            <th>Market Demand %</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="entry : ${result.entries}">
+            <td th:text="${entry.skillName}"></td>
+            <td th:text="${entry.demandPercent} + '%'"></td>
+            <td>
+                <span th:if="${entry.has}" class="badge badge-have">✓ You Have It</span>
+                <span th:unless="${entry.has}" class="badge badge-missing">Missing</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Top Missing Skills (Priority Order)</h2>
+    <div th:if="${not #lists.isEmpty(result.missingSkills)}">
+        <span class="badge badge-demand" th:each="m : ${result.missingSkills}" th:text="${m}"></span>
+    </div>
+    <div th:if="${#lists.isEmpty(result.missingSkills)}" class="empty-state">
+        <h3>Great work!</h3>
+        <p>No major skill-gap was found for this role.</p>
+    </div>
+
+    <h2 style="margin-top:34px;">Recommended Courses</h2>
+    <div th:if="${#maps.isEmpty(recommendations)}" class="empty-state">
+        <p style="margin:0;">No course recommendations available right now.</p>
+    </div>
+    <div class="course-grid">
+        <th:block th:each="entry : ${recommendations}">
+            <div class="course-card" th:each="c : ${entry.value}">
+                <span class="course-skill-tag" th:text="${entry.key}"></span>
+                <h4 th:text="${c.courseName}"></h4>
+                <div class="course-rating" th:text="'⭐ ' + ${c.rating}"></div>
+                <div class="course-provider" th:text="${c.provider}"></div>
+                <a th:href="${c.url}" target="_blank" class="course-link">Start Learning →</a>
+            </div>
+        </th:block>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const labels = /*[[${result.entries.![skillName]}]]*/ [];
+        const data = /*[[${result.entries.![demandPercent]}]]*/ [];
+
+        new Chart(document.getElementById('demandChart'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Market Demand %',
+                    data: data,
+                    backgroundColor: '#6C5CE7',
+                    borderRadius: 6,
+                    maxBarThickness: 36
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true, max: 100, grid: { color: '#eef0f7' } },
+                    x: { grid: { display: false } }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+        /*]]>*/
+    </script>
+</div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

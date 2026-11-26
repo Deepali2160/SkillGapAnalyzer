@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Run Career Analysis — SkillGap Analyzer</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: navbar}"></div>
+<div class="container">
+    <h1>Personalized Skill-Gap Analysis</h1>
+    <p class="subtitle">Analyze using the skills saved on your profile, or the skills detected from your uploaded
+        resume.</p>
+
+    <form th:action="@{/analysis/run}" method="post" data-loading-btn>
+        <div class="form-group">
+            <label for="role">Target Role</label>
+            <select id="role" name="role" required>
+                <option th:each="r : ${roles}" th:value="${r}" th:text="${r}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Use skills from</label>
+            <label class="radio-option">
+                <input type="radio" name="skillSource" value="profile" checked/>
+                My Profile Skills (<span th:text="${profileSkillCount}">0</span> saved)
+            </label>
+            <label class="radio-option">
+                <input type="radio" name="skillSource" value="resume"/>
+                My Resume (<span th:text="${resumeSkillCount != null ? resumeSkillCount : 0}">0</span> detected)
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            <span class="spinner"></span>
+            <span class="btn-label">Run Analysis</span>
+        </button>
+    </form>
+
+    <p class="hint-box">Don't have skills saved yet? <a th:href="@{/skills}">Add skills</a> or
+        <a th:href="@{/resume}">upload your resume</a> first.</p>
+</div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

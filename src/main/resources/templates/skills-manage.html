@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Skills — SkillGap Analyzer</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: navbar}"></div>
+<div class="container">
+    <h1>My Skills</h1>
+    <p class="subtitle">These skills are used whenever you run a personalized analysis from your profile.</p>
+
+    <h3>Currently Added</h3>
+    <div th:if="${#sets.isEmpty(student.skills)}" class="empty-state">
+        <h3>No skills added yet</h3>
+        <p>Add skills below to start using personalized analysis.</p>
+    </div>
+    <div th:unless="${#sets.isEmpty(student.skills)}" style="margin-bottom:10px;">
+        <span class="badge badge-have" th:each="s : ${student.skills}">
+            <span th:text="${s.name}"></span>
+            <form th:action="@{/skills/remove}" method="post" style="display:inline;">
+                <input type="hidden" name="skillName" th:value="${s.name}"/>
+                <button type="submit" class="badge-remove" title="Remove">&times;</button>
+            </form>
+        </span>
+    </div>
+
+    <h3 style="margin-top:30px;">Add a Skill</h3>
+    <form th:action="@{/skills/add}" method="post">
+        <div class="form-group" style="display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap;">
+            <div style="flex:1; min-width:220px;">
+                <select name="skillName" required>
+                    <option th:each="s : ${allSkills}" th:value="${s.name}" th:text="${s.name}"></option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Skill</button>
+        </div>
+    </form>
+</div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

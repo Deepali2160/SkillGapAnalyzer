@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard — SkillGap Analyzer</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: navbar}"></div>
+<div class="container wide">
+    <div class="dashboard-greeting">
+        <h1 th:text="'Good day, ' + ${profile.name} + ' 👋'"></h1>
+        <p>Let's see how close you are to your career goal.</p>
+    </div>
+
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-label">Skills Saved</div>
+            <div class="kpi-value" th:text="${#lists.size(profile.skills)}">0</div>
+        </div>
+        <div class="kpi-card accent">
+            <div class="kpi-label">Resume Status</div>
+            <div class="kpi-value" style="font-size:20px;" th:text="${hasResume} ? 'Uploaded' : 'Not Uploaded'">-</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Analyses Run</div>
+            <div class="kpi-value" th:text="${totalAnalyses}">0</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Latest Match Score</div>
+            <div class="kpi-value" th:if="${#lists.isEmpty(recentAnalyses)}">—</div>
+            <div class="kpi-value" th:unless="${#lists.isEmpty(recentAnalyses)}"
+                 th:text="${recentAnalyses[0].matchPercent} + '%'">—</div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="card">
+            <h3>Profile</h3>
+            <p><strong>Name:</strong> <span th:text="${profile.name}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${profile.email}"></span></p>
+            <div th:if="${#lists.isEmpty(profile.skills)}">
+                <p style="color:var(--text-muted);">No skills added yet.</p>
+            </div>
+            <div th:unless="${#lists.isEmpty(profile.skills)}">
+                <span class="badge badge-neutral" th:each="s : ${profile.skills}" th:text="${s}"></span>
+            </div>
+            <a th:href="@{/skills}" class="btn-link">Manage Skills</a>
+        </div>
+
+        <div class="card">
+            <h3>Resume</h3>
+            <div th:if="${hasResume}" class="empty-state" style="padding:20px; border-style:solid; background:var(--success-soft); border-color:transparent;">
+                <p style="color:var(--success); margin:0;">✓ Resume uploaded and parsed.</p>
+            </div>
+            <div th:unless="${hasResume}" class="empty-state" style="padding:20px;">
+                <p style="margin:0;">No resume uploaded yet. Upload one to auto-detect your skills.</p>
+            </div>
+            <a th:href="@{/resume}" class="btn-link">Upload / View Resume</a>
+        </div>
+
+        <div class="card">
+            <h3>Career Analysis</h3>
+            <p style="color:var(--text-muted); font-size:14px;">Run a fresh skill-gap analysis using your saved
+                skills or your resume.</p>
+            <a th:href="@{/analysis}" class="btn-link">Run New Analysis</a>
+        </div>
+
+        <div class="card">
+            <h3>Recent History</h3>
+            <div th:if="${#lists.isEmpty(recentAnalyses)}" class="empty-state" style="padding:20px;">
+                <p style="margin:0;">Ready to discover your skill gap? Start your first analysis.</p>
+            </div>
+            <ul class="mini-list" th:unless="${#lists.isEmpty(recentAnalyses)}">
+                <li th:each="a : ${recentAnalyses}">
+                    <a th:href="@{'/analysis/history/' + ${a.id}}"
+                       th:text="${a.targetRole} + ' — ' + ${a.matchPercent} + '% match'"></a>
+                </li>
+            </ul>
+            <a th:href="@{/analysis/history}" class="btn-link">View All History</a>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
